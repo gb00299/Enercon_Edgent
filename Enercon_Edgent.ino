@@ -49,6 +49,14 @@ bool switchIsOpen = true;
 /************* Function Declarations ****************/
 /****************************************************/
 
+void setup_HWpins (void);
+bool check_phase_status (void);
+bool check_switch_status (void);
+void update_BlynkServer (int p1, int p2, int p3, bool switchOpen);
+void closeSwitch (void);
+void openSwitch (void);
+void switchTimeout (void);
+void canOperateTimeout (void);
 
 /****************************************************/
 /*************** Main Arduino Code ******************/
@@ -97,7 +105,21 @@ void setup_HWpins (void)
 
 bool check_phase_status (void)
 {
-  return false;
+  bool update = false;
+
+  int newP1 = digitalRead(REPORT_P1);
+  int newP2 = digitalRead(REPORT_P2);
+  int newP3 = digitalRead(REPORT_P3);
+
+  if (newP1 != phase1) update = true;
+  if (newP2 != phase2) update = true;
+  if (newP3 != phase3) update = true;
+
+  phase1 = newP1;
+  phase2 = newP2;
+  phase3 = newP3;
+
+  return update;
 }
 
 bool check_switch_status (void)
@@ -117,7 +139,7 @@ bool check_switch_status (void)
 
   if (newSwitchIsOpen != switchIsOpen) update = true;
   switchIsOpen = newSwitchIsOpen;
-  
+
   return update;
 }
 
