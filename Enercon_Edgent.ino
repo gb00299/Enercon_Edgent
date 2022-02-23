@@ -33,12 +33,17 @@
 #define BLYNK_DISPLAY_SWITCH_CLOSED  V14
 #define BLYNK_DISPLAY_SWITCH_OPEN    V15
 
-//Timers and more
+//Timers and global items
 #define SWITCH_PRESS_INTERVAL   100L
 #define CAN_OPERATE_INTERVAL   5000L
 BlynkTimer switchTimer;
 BlynkTimer canOperateTimer;
+
 bool canOperateSwitch = false;
+int phase1 = 0;
+int phase2 = 0;
+int phase3 = 0;
+bool switchIsOpen = true;
 
 /****************************************************/
 /************* Function Declarations ****************/
@@ -55,17 +60,17 @@ void setup()
   delay(100);
   setup_HWpins();
   BlynkEdgent.begin();
+  //update_BlynkServer(***);
 }
 
 void loop() {
   BlynkEdgent.run();
 
   bool needsUpdate = false;
+  needsUpdate |= check_phase_status ();
+  needsUpdate |= check_switch_status ();
 
-
-
-
-  //if (needsUpdate) update_BlynkServer(***);
+  if (needsUpdate) update_BlynkServer(phase1, phase2, phase3, switchIsOpen);
 }
 
 /****************************************************/
@@ -92,12 +97,28 @@ void setup_HWpins (void)
 
 bool check_phase_status (void)
 {
-  return true;
+  return false;
 }
 
 bool check_switch_status (void)
 {
-  return true;
+  bool update = false;
+
+  int pin = digitalRead(REPORT_SWITCH_STATUS);
+  bool newSwitchIsOpen;
+  if (pin == HIGH)
+  {
+    newSwitchIsOpen = true;
+  }
+  else
+  {
+    newSwitchIsOpen = false;
+  }
+
+  if (newSwitchIsOpen != switchIsOpen) update = true;
+  switchIsOpen = newSwitchIsOpen;
+  
+  return update;
 }
 
 void update_BlynkServer (int p1, int p2, int p3, bool switchOpen)
