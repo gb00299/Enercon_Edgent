@@ -68,7 +68,7 @@ void setup()
   delay(100);
   setup_HWpins();
   BlynkEdgent.begin();
-  //update_BlynkServer(***);
+  update_BlynkServer(phase1, phase2, phase3, switchIsOpen);
 }
 
 void loop() {
