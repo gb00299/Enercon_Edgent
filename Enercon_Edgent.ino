@@ -8,7 +8,7 @@
 
 #define BLYNK_TEMPLATE_ID "TMPLFRtcxaBq"
 #define BLYNK_DEVICE_NAME "Enercon Pwr"
-#define BLYNK_FIRMWARE_VERSION        "1.0.0"
+#define BLYNK_FIRMWARE_VERSION        "1.1.0"
 #define BLYNK_PRINT Serial
 //#define BLYNK_DEBUG
 #define APP_DEBUG
@@ -193,6 +193,7 @@ void update_BlynkServer (int p1, int p2, int p3, bool switchOpen)
   {
     Blynk.virtualWrite (BLYNK_DISPLAY_SWITCH_OPEN,   "   Switch open   ");
     Blynk.virtualWrite (BLYNK_DISPLAY_SWITCH_CLOSED, "-----------------");
+    Blynk.logEvent("event_switch_opened");
     digitalWrite(LED_SWITCH_OPEN, LOW);
     digitalWrite(LED_SWITCH_CLOSE, HIGH);
   }
@@ -200,6 +201,7 @@ void update_BlynkServer (int p1, int p2, int p3, bool switchOpen)
   {
     Blynk.virtualWrite (BLYNK_DISPLAY_SWITCH_OPEN,   "-----------------");
     Blynk.virtualWrite (BLYNK_DISPLAY_SWITCH_CLOSED, "  Switch closed  ");
+    Blynk.logEvent("event_switch_closed");
     digitalWrite(LED_SWITCH_OPEN, HIGH);
     digitalWrite(LED_SWITCH_CLOSE, LOW);
   }
