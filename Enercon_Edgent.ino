@@ -8,7 +8,7 @@
 
 #define BLYNK_TEMPLATE_ID "TMPLFRtcxaBq"
 #define BLYNK_DEVICE_NAME "Enercon Pwr"
-#define BLYNK_FIRMWARE_VERSION        "1.1.0"
+#define BLYNK_FIRMWARE_VERSION        "1.1.1"
 #define BLYNK_PRINT Serial
 //#define BLYNK_DEBUG
 #define APP_DEBUG
@@ -168,7 +168,7 @@ bool check_switch_status (void)
 
   int pin = digitalRead(REPORT_SWITCH_STATUS);
   bool newSwitchIsOpen;
-  if (pin == HIGH)
+  if (pin == LOW)
   {
     newSwitchIsOpen = true;
   }
